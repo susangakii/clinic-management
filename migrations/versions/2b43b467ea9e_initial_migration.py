@@ -1,8 +1,8 @@
-"""Initial migration: Create specialties, doctors, patients, and appointments tables
+"""Initial migration
 
-Revision ID: a155642dfd10
+Revision ID: 2b43b467ea9e
 Revises: 
-Create Date: 2025-12-18 07:39:15.317297
+Create Date: 2025-12-18 08:22:07.724940
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'a155642dfd10'
+revision = '2b43b467ea9e'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -21,25 +21,18 @@ def upgrade():
     op.create_table('patients',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('name', sa.String(), nullable=False),
-    sa.Column('phone', sa.String(), nullable=True),
-    sa.Column('medical_history', sa.Text(), nullable=True),
-    sa.Column('created_at', sa.DateTime(), nullable=True),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('specialties',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('name', sa.String(), nullable=False),
-    sa.Column('description', sa.Text(), nullable=True),
-    sa.Column('created_at', sa.DateTime(), nullable=True),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('name')
     )
     op.create_table('doctors',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('name', sa.String(), nullable=False),
-    sa.Column('phone', sa.String(), nullable=True),
     sa.Column('specialty_id', sa.Integer(), nullable=False),
-    sa.Column('created_at', sa.DateTime(), nullable=True),
     sa.ForeignKeyConstraint(['specialty_id'], ['specialties.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
@@ -51,7 +44,6 @@ def upgrade():
     sa.Column('duration_minutes', sa.Integer(), nullable=True),
     sa.Column('status', sa.String(), nullable=True),
     sa.Column('reason', sa.Text(), nullable=True),
-    sa.Column('created_at', sa.DateTime(), nullable=True),
     sa.ForeignKeyConstraint(['doctor_id'], ['doctors.id'], ),
     sa.ForeignKeyConstraint(['patient_id'], ['patients.id'], ),
     sa.PrimaryKeyConstraint('id')

@@ -11,8 +11,6 @@ class Specialty(db.Model):
     
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, nullable=False, unique=True)
-    description = db.Column(db.Text)
-    created_at = db.Column(db.DateTime)
     
     # relationship
     doctors = db.relationship('Doctor', back_populates='specialty', cascade='all, delete-orphan')
@@ -26,9 +24,7 @@ class Doctor(db.Model):
     
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, nullable=False)
-    phone = db.Column(db.String)
     specialty_id = db.Column(db.Integer, db.ForeignKey('specialties.id'), nullable=False)
-    created_at = db.Column(db.DateTime)
     
     # relationships
     specialty = db.relationship('Specialty', back_populates='doctors')
@@ -43,9 +39,6 @@ class Patient(db.Model):
     
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, nullable=False)
-    phone = db.Column(db.String)
-    medical_history = db.Column(db.Text)
-    created_at = db.Column(db.DateTime)
     
     # relationship
     appointments = db.relationship('Appointment', back_populates='patient', cascade='all, delete-orphan')
@@ -64,7 +57,6 @@ class Appointment(db.Model):
     duration_minutes = db.Column(db.Integer, default=30)
     status = db.Column(db.String, default='scheduled')
     reason = db.Column(db.Text)
-    created_at = db.Column(db.DateTime)
     
     # relationships
     patient = db.relationship('Patient', back_populates='appointments')
